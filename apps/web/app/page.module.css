@@ -103,6 +103,56 @@
   line-height: 1.75;
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.primaryAction,
+.secondaryAction {
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.primaryAction {
+  background: var(--color-ink);
+  color: var(--color-white);
+}
+
+.secondaryAction {
+  border: 1px solid rgb(23 32 51 / 14%);
+  background: var(--color-white);
+  color: var(--color-ink);
+}
+
+.primaryAction:hover,
+.primaryAction:focus-visible,
+.secondaryAction:hover,
+.secondaryAction:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.primaryAction:hover,
+.primaryAction:focus-visible {
+  background: #0f172a;
+}
+
+.secondaryAction:hover,
+.secondaryAction:focus-visible {
+  border-color: rgb(23 32 51 / 36%);
+  background: #fbfcf8;
+}
+
 .commandPanel,
 .checkCard {
   border: 1px solid rgb(23 32 51 / 10%);

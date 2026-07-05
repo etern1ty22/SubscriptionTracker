@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactElement } from "react";
 import styles from "./page.module.css";
 
@@ -30,7 +31,7 @@ export default function HomePage(): ReactElement {
           <div className={styles.brand}>
             <Image src="/brand-mark.svg" alt="" width={40} height={40} priority />
             <div>
-              <p className={styles.eyebrow}>MVP 0</p>
+              <p className={styles.eyebrow}>MVP 1</p>
               <h1 className={styles.title}>Subscription Tracker</h1>
             </div>
           </div>
@@ -41,14 +42,25 @@ export default function HomePage(): ReactElement {
 
         <div className={styles.hero}>
           <div className={styles.heroCopy}>
-            <p className={styles.status}>Project skeleton is ready</p>
+            <p className={styles.status}>Auth is ready</p>
             <h2 className={styles.headline}>
-              A clean base for auth, subscriptions, dashboard, and analytics.
+              Register, log in, and open a protected dashboard.
             </h2>
             <p className={styles.summary}>
-              The monorepo now has a separate frontend, backend, shared package,
-              PostgreSQL service, Prisma migrations, and a health-check endpoint.
+              The app now creates users, hashes passwords, stores JWT sessions in
+              httpOnly cookies, and verifies the current user before rendering dashboard.
             </p>
+            <div className={styles.actions}>
+              <Link className={styles.primaryAction} href="/register">
+                Create account
+              </Link>
+              <Link className={styles.secondaryAction} href="/login">
+                Log in
+              </Link>
+              <Link className={styles.secondaryAction} href="/dashboard">
+                Dashboard
+              </Link>
+            </div>
           </div>
 
           <div className={styles.commandPanel}>

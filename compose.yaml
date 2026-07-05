@@ -37,6 +37,7 @@ services:
       PORT: ${API_PORT:-4000}
       DATABASE_URL: postgresql://${POSTGRES_USER:-subscription_tracker}:${POSTGRES_PASSWORD:-subscription_tracker}@postgres:5432/${POSTGRES_DB:-subscription_tracker}?schema=public
       FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000}
+      JWT_SECRET: ${JWT_SECRET:-subscription-tracker-development-secret-change-me}
     ports:
       - "${API_PORT:-4000}:4000"
     depends_on:
