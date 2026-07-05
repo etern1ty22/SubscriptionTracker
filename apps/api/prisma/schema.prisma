@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BillingCycle {
+  daily
+  weekly
+  monthly
+  quarterly
+  yearly
+
+  @@map("billing_cycle")
+}
+
+enum NotificationType {
+  billing_reminder
+
+  @@map("notification_type")
+}
+
+model User {
+  id           String         @id @default(cuid())
+  email        String         @unique
+  passwordHash String         @map("password_hash")
+  categories   Category[]
+  subscriptions Subscription[]
+  notifications Notification[]
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Category {
+  id            String         @id @default(cuid())
+  userId        String         @map("user_id")
+  name          String
+  color         String         @default("#64748b")
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("categories")
+}
+
+model Subscription {
+  id                 String         @id @default(cuid())
+  userId             String         @map("user_id")
+  categoryId         String?        @map("category_id")
+  name               String
+  description        String?
+  amount             Decimal        @db.Decimal(12, 2)
+  currency           String         @default("USD")
+  billingCycle       BillingCycle   @map("billing_cycle")
+  nextBillingDate    DateTime       @map("next_billing_date") @db.Date
+  isActive           Boolean        @default(true) @map("is_active")
+  reminderEnabled    Boolean        @default(false) @map("reminder_enabled")
+  reminderDaysBefore Int?           @map("reminder_days_before")
+  user               User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category           Category?      @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  notifications      Notification[]
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([categoryId])
+  @@index([userId, nextBillingDate])
+  @@map("subscriptions")
+}
+
+model Notification {
+  id             String            @id @default(cuid())
+  userId         String            @map("user_id")
+  subscriptionId String?           @map("subscription_id")
+  type           NotificationType
+  title          String
+  message        String
+  scheduledFor   DateTime          @map("scheduled_for") @db.Date
+  isRead         Boolean           @default(false) @map("is_read")
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription   Subscription?     @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  createdAt      DateTime          @default(now()) @map("created_at")
+
+  @@index([userId, isRead])
+  @@index([subscriptionId])
+  @@unique([userId, subscriptionId, type, scheduledFor])
+  @@map("notifications")
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@subscription-tracker/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0 --port 3000",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0 --port 3000",
+    "lint": "next lint --max-warnings=0",
+    "test": "node -e \"console.log('No frontend tests configured for MVP 0')\"",
+    "test:e2e": "node -e \"console.log('No frontend e2e tests configured for MVP 0')\""
+  },
+  "dependencies": {
+    "@subscription-tracker/shared": "0.1.0",
+    "next": "^14.2.23",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.23",
+    "typescript": "^5.7.2"
+  }
+}
