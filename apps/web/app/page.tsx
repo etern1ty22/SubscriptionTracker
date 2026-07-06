@@ -7,17 +7,17 @@ const checks = [
   {
     title: "Frontend",
     value: "Next.js App Router",
-    description: "Runs on port 3000 and will host the product UI."
+    description: "Hosts auth and subscription CRUD pages on port 3000."
   },
   {
     title: "Backend",
     value: "NestJS API",
-    description: "Runs on port 4000 with a database-backed health endpoint."
+    description: "Serves auth, health, and user-scoped subscriptions on port 4000."
   },
   {
     title: "Database",
     value: "PostgreSQL + Prisma",
-    description: "Schema and the first migration are ready for MVP features."
+    description: "Stores users, categories, subscriptions, and notifications."
   }
 ];
 
@@ -31,7 +31,7 @@ export default function HomePage(): ReactElement {
           <div className={styles.brand}>
             <Image src="/brand-mark.svg" alt="" width={40} height={40} priority />
             <div>
-              <p className={styles.eyebrow}>MVP 1</p>
+              <p className={styles.eyebrow}>MVP 2</p>
               <h1 className={styles.title}>Subscription Tracker</h1>
             </div>
           </div>
@@ -42,13 +42,13 @@ export default function HomePage(): ReactElement {
 
         <div className={styles.hero}>
           <div className={styles.heroCopy}>
-            <p className={styles.status}>Auth is ready</p>
+            <p className={styles.status}>Subscriptions CRUD is ready</p>
             <h2 className={styles.headline}>
-              Register, log in, and open a protected dashboard.
+              Add recurring payments after signing in.
             </h2>
             <p className={styles.summary}>
-              The app now creates users, hashes passwords, stores JWT sessions in
-              httpOnly cookies, and verifies the current user before rendering dashboard.
+              The app creates users, stores JWT sessions in httpOnly cookies, and lets each user manage only their own
+              subscriptions through a NestJS API.
             </p>
             <div className={styles.actions}>
               <Link className={styles.primaryAction} href="/register">
@@ -59,6 +59,9 @@ export default function HomePage(): ReactElement {
               </Link>
               <Link className={styles.secondaryAction} href="/dashboard">
                 Dashboard
+              </Link>
+              <Link className={styles.secondaryAction} href="/subscriptions">
+                Subscriptions
               </Link>
             </div>
           </div>

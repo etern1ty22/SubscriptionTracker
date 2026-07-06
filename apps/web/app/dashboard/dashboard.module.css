@@ -57,6 +57,33 @@
   line-height: 1.75;
 }
 
+.dashboardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.primaryAction {
+  border-radius: 8px;
+  background: var(--color-ink);
+  padding: 11px 14px;
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.primaryAction:hover,
+.primaryAction:focus-visible {
+  background: #0f172a;
+  outline: none;
+  transform: translateY(-1px);
+}
+
 .panel,
 .metricCard {
   border: 1px solid rgb(23 32 51 / 10%);

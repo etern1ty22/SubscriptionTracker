@@ -15,6 +15,10 @@ export function getPublicApiUrl(): string {
   return process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
 }
 
+export function getServerApiUrl(): string {
+  return process.env.INTERNAL_API_URL ?? getPublicApiUrl();
+}
+
 export async function fetchCurrentUser(cookieHeader: string): Promise<AuthUser | null> {
   const headers: HeadersInit = cookieHeader.trim().length > 0 ? { cookie: cookieHeader } : {};
   const response = await fetch(`${getServerApiUrl()}/auth/me`, {
@@ -63,10 +67,6 @@ export async function getApiErrorMessage(response: Response): Promise<string> {
   } catch {
     return fallback;
   }
-}
-
-function getServerApiUrl(): string {
-  return process.env.INTERNAL_API_URL ?? getPublicApiUrl();
 }
 
 function parseAuthResponse(payload: unknown): AuthResponse {
