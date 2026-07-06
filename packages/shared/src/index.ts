@@ -104,6 +104,54 @@ export type DashboardSummaryResponse = {
   summary: DashboardSummary;
 };
 
+export type StatsMoneyTotal = {
+  currency: string;
+  amount: string;
+};
+
+export type StatsSubscriptionRankItem = {
+  id: string;
+  name: string;
+  amount: string;
+  currency: string;
+  billingCycle: BillingCycle;
+  monthlyEquivalent: string;
+  yearlyEquivalent: string;
+  category: SubscriptionCategory | null;
+};
+
+export type StatsSummary = {
+  activeSubscriptionsCount: number;
+  monthlyTotals: StatsMoneyTotal[];
+  averageMonthlyTotals: StatsMoneyTotal[];
+  yearlyTotals: StatsMoneyTotal[];
+  mostExpensiveSubscriptions: StatsSubscriptionRankItem[];
+};
+
+export type StatsMonthlyPoint = {
+  month: string;
+  totals: StatsMoneyTotal[];
+};
+
+export type StatsCategoryItem = {
+  category: SubscriptionCategory | null;
+  activeSubscriptionsCount: number;
+  monthlyTotals: StatsMoneyTotal[];
+  yearlyTotals: StatsMoneyTotal[];
+};
+
+export type StatsSummaryResponse = {
+  summary: StatsSummary;
+};
+
+export type StatsMonthlyResponse = {
+  months: StatsMonthlyPoint[];
+};
+
+export type StatsCategoriesResponse = {
+  categories: StatsCategoryItem[];
+};
+
 export type CalendarPayment = {
   id: string;
   subscriptionId: string;

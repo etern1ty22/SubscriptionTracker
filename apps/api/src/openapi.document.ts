@@ -21,6 +21,9 @@ import {
   logoutResponseSchema,
   notificationsListResponseSchema,
   notificationResponseSchema,
+  statsCategoriesResponseSchema,
+  statsMonthlyResponseSchema,
+  statsSummaryResponseSchema,
   subscriptionResponseSchema,
   subscriptionsListResponseSchema,
   SWAGGER_SESSION_AUTH_NAME,
@@ -244,6 +247,39 @@ export const openApiDocument: OpenAPIObject = {
           "200": jsonResponse("Notification was marked as read.", notificationResponseSchema),
           "401": jsonResponse("Authentication is required.", errorResponseSchema),
           "404": jsonResponse("Notification was not found for the current user.", errorResponseSchema)
+        }
+      }
+    },
+    "/stats/summary": {
+      get: {
+        tags: ["Stats"],
+        summary: "Return current user's statistics summary",
+        security: sessionSecurity(),
+        responses: {
+          "200": jsonResponse("Monthly, yearly, average, and top subscription statistics.", statsSummaryResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema)
+        }
+      }
+    },
+    "/stats/monthly": {
+      get: {
+        tags: ["Stats"],
+        summary: "Return current user's projected monthly payment totals",
+        security: sessionSecurity(),
+        responses: {
+          "200": jsonResponse("Next 12 months of projected active subscription charges.", statsMonthlyResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema)
+        }
+      }
+    },
+    "/stats/categories": {
+      get: {
+        tags: ["Stats"],
+        summary: "Return current user's category statistics",
+        security: sessionSecurity(),
+        responses: {
+          "200": jsonResponse("Category spend breakdown for active subscriptions.", statsCategoriesResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema)
         }
       }
     },

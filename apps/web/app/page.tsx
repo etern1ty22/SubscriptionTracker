@@ -31,7 +31,7 @@ export default function HomePage(): ReactElement {
           <div className={styles.brand}>
             <Image src="/brand-mark.svg" alt="" width={40} height={40} priority />
             <div>
-              <p className={styles.eyebrow}>MVP 6</p>
+              <p className={styles.eyebrow}>MVP 7</p>
               <h1 className={styles.title}>Subscription Tracker</h1>
             </div>
           </div>
@@ -42,13 +42,13 @@ export default function HomePage(): ReactElement {
 
         <div className={styles.hero}>
           <div className={styles.heroCopy}>
-            <p className={styles.status}>Reminders are ready</p>
+            <p className={styles.status}>Statistics are ready</p>
             <h2 className={styles.headline}>
               Add recurring payments after signing in.
             </h2>
             <p className={styles.summary}>
               The app creates users, stores JWT sessions in httpOnly cookies, and lets each user manage subscriptions,
-              categories, calendar charges, and in-app reminders through a NestJS API.
+              categories, calendar charges, reminders, and spending statistics through a NestJS API.
             </p>
             <div className={styles.actions}>
               <Link className={styles.primaryAction} href="/register">
@@ -65,6 +65,9 @@ export default function HomePage(): ReactElement {
               </Link>
               <Link className={styles.secondaryAction} href="/notifications">
                 Notifications
+              </Link>
+              <Link className={styles.secondaryAction} href="/statistics">
+                Statistics
               </Link>
             </div>
           </div>

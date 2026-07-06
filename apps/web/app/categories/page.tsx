@@ -37,6 +37,9 @@ export default async function CategoriesPage(): Promise<ReactElement> {
             <Link className={styles.navLink} href="/notifications">
               Notifications
             </Link>
+            <Link className={styles.navLink} href="/statistics">
+              Statistics
+            </Link>
             <Link className={styles.primaryLink} href="/categories/new">
               New category
             </Link>

@@ -29,6 +29,20 @@ export function formatDateOnly(value: string): string {
   return dateFormatter.format(date);
 }
 
+export function formatMonth(value: string): string {
+  const date = new Date(`${value}-01T00:00:00.000Z`);
+
+  if (Number.isNaN(date.valueOf())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    month: "long",
+    timeZone: "UTC",
+    year: "numeric"
+  }).format(date);
+}
+
 export function formatBillingCycle(cycle: BillingCycle): string {
   return billingCycleLabels[cycle];
 }

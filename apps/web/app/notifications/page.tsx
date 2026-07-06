@@ -39,6 +39,9 @@ export default async function NotificationsPage(): Promise<ReactElement> {
             <Link className={styles.navLink} href="/calendar">
               Calendar
             </Link>
+            <Link className={styles.navLink} href="/statistics">
+              Statistics
+            </Link>
             <LogoutButton />
           </div>
         </header>

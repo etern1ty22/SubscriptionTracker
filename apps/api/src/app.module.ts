@@ -9,6 +9,7 @@ import { DashboardModule } from "./dashboard/dashboard.module";
 import { HealthModule } from "./health/health.module";
 import { NotificationsModule } from "./notifications/notifications.module";
 import { PrismaModule } from "./prisma/prisma.module";
+import { StatsModule } from "./stats/stats.module";
 import { SubscriptionsModule } from "./subscriptions/subscriptions.module";
 
 @Module({
@@ -24,6 +25,7 @@ import { SubscriptionsModule } from "./subscriptions/subscriptions.module";
     CategoriesModule,
     DashboardModule,
     NotificationsModule,
+    StatsModule,
     SubscriptionsModule,
     HealthModule
   ],

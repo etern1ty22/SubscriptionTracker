@@ -434,6 +434,158 @@ export const dashboardSummaryResponseSchema: SchemaObject = {
   }
 };
 
+export const statsSubscriptionRankItemSchema: SchemaObject = {
+  type: "object",
+  required: [
+    "id",
+    "name",
+    "amount",
+    "currency",
+    "billingCycle",
+    "monthlyEquivalent",
+    "yearlyEquivalent",
+    "category"
+  ],
+  properties: {
+    id: {
+      type: "string",
+      example: "clxsubscription123"
+    },
+    name: {
+      type: "string",
+      example: "VPS Server"
+    },
+    amount: {
+      type: "string",
+      pattern: "^(?:0|[1-9]\\d{0,9})(?:\\.\\d{1,2})?$",
+      example: "20.00"
+    },
+    currency: {
+      type: "string",
+      minLength: 3,
+      maxLength: 3,
+      example: "USD"
+    },
+    billingCycle: {
+      type: "string",
+      enum: ["daily", "weekly", "monthly", "quarterly", "yearly"],
+      example: "monthly"
+    },
+    monthlyEquivalent: {
+      type: "string",
+      pattern: "^(?:0|[1-9]\\d*)(?:\\.\\d{2})$",
+      example: "20.00"
+    },
+    yearlyEquivalent: {
+      type: "string",
+      pattern: "^(?:0|[1-9]\\d*)(?:\\.\\d{2})$",
+      example: "240.00"
+    },
+    category: {
+      nullable: true,
+      allOf: [subscriptionCategorySchema]
+    }
+  }
+};
+
+export const statsSummaryResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["summary"],
+  properties: {
+    summary: {
+      type: "object",
+      required: [
+        "activeSubscriptionsCount",
+        "monthlyTotals",
+        "averageMonthlyTotals",
+        "yearlyTotals",
+        "mostExpensiveSubscriptions"
+      ],
+      properties: {
+        activeSubscriptionsCount: {
+          type: "number",
+          example: 8
+        },
+        monthlyTotals: {
+          type: "array",
+          items: dashboardMoneyTotalSchema
+        },
+        averageMonthlyTotals: {
+          type: "array",
+          items: dashboardMoneyTotalSchema
+        },
+        yearlyTotals: {
+          type: "array",
+          items: dashboardMoneyTotalSchema
+        },
+        mostExpensiveSubscriptions: {
+          type: "array",
+          items: statsSubscriptionRankItemSchema
+        }
+      }
+    }
+  }
+};
+
+export const statsMonthlyResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["months"],
+  properties: {
+    months: {
+      type: "array",
+      items: {
+        type: "object",
+        required: ["month", "totals"],
+        properties: {
+          month: {
+            type: "string",
+            pattern: "^\\d{4}-\\d{2}$",
+            example: "2026-08"
+          },
+          totals: {
+            type: "array",
+            items: dashboardMoneyTotalSchema
+          }
+        }
+      }
+    }
+  }
+};
+
+export const statsCategoryItemSchema: SchemaObject = {
+  type: "object",
+  required: ["category", "activeSubscriptionsCount", "monthlyTotals", "yearlyTotals"],
+  properties: {
+    category: {
+      nullable: true,
+      allOf: [subscriptionCategorySchema]
+    },
+    activeSubscriptionsCount: {
+      type: "number",
+      example: 4
+    },
+    monthlyTotals: {
+      type: "array",
+      items: dashboardMoneyTotalSchema
+    },
+    yearlyTotals: {
+      type: "array",
+      items: dashboardMoneyTotalSchema
+    }
+  }
+};
+
+export const statsCategoriesResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["categories"],
+  properties: {
+    categories: {
+      type: "array",
+      items: statsCategoryItemSchema
+    }
+  }
+};
+
 export const calendarPaymentSchema: SchemaObject = {
   type: "object",
   required: ["id", "subscriptionId", "name", "amount", "currency", "billingCycle", "paymentDate", "category"],
