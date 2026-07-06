@@ -31,7 +31,9 @@
 
 .navActions,
 .detailActions,
-.formActions {
+.formActions,
+.rowActions,
+.inlineActions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -171,6 +173,21 @@
 .subscriptionName {
   color: var(--color-ink);
   font-weight: 850;
+}
+
+.categoryCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.colorSwatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  border: 1px solid rgb(23 32 51 / 16%);
+  border-radius: 4px;
 }
 
 .muted {
@@ -366,6 +383,11 @@
 .field select:disabled {
   cursor: not-allowed;
   opacity: 0.62;
+}
+
+.field .colorInput {
+  height: 46px;
+  padding: 6px;
 }
 
 .checkboxField {

@@ -13,6 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 16px;
 }
 
@@ -60,28 +61,53 @@
 .dashboardActions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
   margin-top: 24px;
 }
 
-.primaryAction {
+.header .dashboardActions {
+  margin-top: 0;
+}
+
+.primaryAction,
+.secondaryAction {
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--color-ink);
   padding: 11px 14px;
-  color: var(--color-white);
   font-size: 14px;
   font-weight: 800;
   line-height: 1.2;
   transition:
+    border-color 160ms ease,
     background-color 160ms ease,
     transform 160ms ease;
 }
 
+.primaryAction {
+  background: var(--color-ink);
+  color: var(--color-white);
+}
+
+.secondaryAction {
+  border-color: rgb(23 32 51 / 14%);
+  background: var(--color-white);
+  color: var(--color-ink);
+}
+
 .primaryAction:hover,
-.primaryAction:focus-visible {
+.primaryAction:focus-visible,
+.secondaryAction:hover,
+.secondaryAction:focus-visible {
   background: #0f172a;
   outline: none;
   transform: translateY(-1px);
+}
+
+.secondaryAction:hover,
+.secondaryAction:focus-visible {
+  border-color: rgb(23 32 51 / 36%);
+  background: #fbfcf8;
 }
 
 .panel,

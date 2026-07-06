@@ -142,6 +142,82 @@ export const subscriptionCategorySchema: SchemaObject = {
   }
 };
 
+export const categorySchema: SchemaObject = {
+  type: "object",
+  required: ["id", "name", "color", "subscriptionCount", "createdAt", "updatedAt"],
+  properties: {
+    id: {
+      type: "string",
+      example: "clxcategory123"
+    },
+    name: {
+      type: "string",
+      example: "Entertainment"
+    },
+    color: {
+      type: "string",
+      pattern: "^#[0-9a-fA-F]{6}$",
+      example: "#64748b"
+    },
+    subscriptionCount: {
+      type: "number",
+      example: 4
+    },
+    createdAt: {
+      type: "string",
+      format: "date-time"
+    },
+    updatedAt: {
+      type: "string",
+      format: "date-time"
+    }
+  }
+};
+
+export const categoryResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["category"],
+  properties: {
+    category: categorySchema
+  }
+};
+
+export const categoriesListResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["categories"],
+  properties: {
+    categories: {
+      type: "array",
+      items: categorySchema
+    }
+  }
+};
+
+export const createCategoryBodySchema: SchemaObject = {
+  type: "object",
+  required: ["name"],
+  properties: {
+    name: {
+      type: "string",
+      minLength: 1,
+      maxLength: 64,
+      example: "Entertainment"
+    },
+    color: {
+      type: "string",
+      pattern: "^#[0-9a-fA-F]{6}$",
+      default: "#64748b",
+      example: "#3b6ea8"
+    }
+  }
+};
+
+export const updateCategoryBodySchema: SchemaObject = {
+  type: "object",
+  minProperties: 1,
+  properties: createCategoryBodySchema.properties
+};
+
 export const subscriptionSchema: SchemaObject = {
   type: "object",
   required: [

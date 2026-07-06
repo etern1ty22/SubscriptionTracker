@@ -6,6 +6,7 @@ import type { ReactElement } from "react";
 import { LogoutButton } from "../../../../components/logout-button";
 import { SubscriptionForm } from "../../../../components/subscription-form";
 import { fetchCurrentUser } from "../../../../lib/auth-api";
+import { fetchCategories } from "../../../../lib/categories-api";
 import { fetchSubscription } from "../../../../lib/subscriptions-api";
 import styles from "../../subscriptions.module.css";
 
@@ -24,6 +25,7 @@ export default async function EditSubscriptionPage({ params }: EditSubscriptionP
   }
 
   const subscription = await fetchSubscription(cookieHeader, params.id);
+  const categories = await fetchCategories(cookieHeader);
 
   if (subscription === null) {
     notFound();
@@ -48,7 +50,7 @@ export default async function EditSubscriptionPage({ params }: EditSubscriptionP
           <p className={styles.eyebrow}>Edit subscription</p>
           <h1 className={styles.title}>{subscription.name}</h1>
           <p className={styles.summary}>Update price, billing date, cycle, category, status, or reminder settings.</p>
-          <SubscriptionForm mode="edit" subscription={subscription} />
+          <SubscriptionForm categories={categories} mode="edit" subscription={subscription} />
         </section>
       </section>
     </main>

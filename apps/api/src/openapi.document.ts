@@ -11,6 +11,9 @@ import { AUTH_COOKIE_NAME } from "./auth/auth.config";
 import {
   authCredentialsBodySchema,
   authResponseSchema,
+  categoriesListResponseSchema,
+  categoryResponseSchema,
+  createCategoryBodySchema,
   createSubscriptionBodySchema,
   errorResponseSchema,
   healthResponseSchema,
@@ -18,6 +21,7 @@ import {
   subscriptionResponseSchema,
   subscriptionsListResponseSchema,
   SWAGGER_SESSION_AUTH_NAME,
+  updateCategoryBodySchema,
   updateSubscriptionBodySchema
 } from "./openapi.schemas";
 
@@ -132,6 +136,76 @@ export const openApiDocument: OpenAPIObject = {
         }
       }
     },
+    "/categories": {
+      get: {
+        tags: ["Categories"],
+        summary: "List current user's categories",
+        security: sessionSecurity(),
+        responses: {
+          "200": jsonResponse("Categories sorted by name.", categoriesListResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema)
+        }
+      },
+      post: {
+        tags: ["Categories"],
+        summary: "Create a category for the current user",
+        security: sessionSecurity(),
+        requestBody: jsonRequest(createCategoryBodySchema),
+        responses: {
+          "200": jsonResponse("Category was created.", categoryResponseSchema),
+          "400": jsonResponse("Invalid category payload.", errorResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema),
+          "409": jsonResponse("Category name already exists.", errorResponseSchema)
+        }
+      }
+    },
+    "/categories/{id}": {
+      get: {
+        tags: ["Categories"],
+        summary: "Get one current-user category by id",
+        security: sessionSecurity(),
+        parameters: [categoryIdParameter()],
+        responses: {
+          "200": jsonResponse("Category belongs to the current user.", categoryResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema),
+          "404": jsonResponse("Category was not found for the current user.", errorResponseSchema)
+        }
+      },
+      patch: {
+        tags: ["Categories"],
+        summary: "Update one current-user category",
+        security: sessionSecurity(),
+        parameters: [categoryIdParameter()],
+        requestBody: jsonRequest(updateCategoryBodySchema),
+        responses: {
+          "200": jsonResponse("Category was updated.", categoryResponseSchema),
+          "400": jsonResponse("Invalid update payload.", errorResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema),
+          "404": jsonResponse("Category was not found for the current user.", errorResponseSchema),
+          "409": jsonResponse("Category name already exists.", errorResponseSchema)
+        }
+      },
+      delete: {
+        tags: ["Categories"],
+        summary: "Delete one current-user category",
+        security: sessionSecurity(),
+        parameters: [categoryIdParameter()],
+        responses: {
+          "200": jsonResponse("Category was deleted. Linked subscriptions are not deleted.", {
+            type: "object",
+            required: ["success"],
+            properties: {
+              success: {
+                type: "boolean",
+                example: true
+              }
+            }
+          }),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema),
+          "404": jsonResponse("Category was not found for the current user.", errorResponseSchema)
+        }
+      }
+    },
     "/subscriptions": {
       get: {
         tags: ["Subscriptions"],
@@ -231,6 +305,19 @@ function sessionSecurity(): SecurityRequirementObject[] {
       [SWAGGER_SESSION_AUTH_NAME]: []
     }
   ];
+}
+
+function categoryIdParameter(): ParameterObject {
+  return {
+    name: "id",
+    in: "path",
+    required: true,
+    description: "Category id.",
+    schema: {
+      type: "string"
+    },
+    example: "clxcategory123"
+  };
 }
 
 function subscriptionIdParameter(): ParameterObject {

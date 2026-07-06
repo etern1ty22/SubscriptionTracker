@@ -29,6 +29,20 @@ export type SubscriptionCategory = {
   color: string;
 };
 
+export type Category = SubscriptionCategory & {
+  subscriptionCount: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CategoriesListResponse = {
+  categories: Category[];
+};
+
+export type CategoryResponse = {
+  category: Category;
+};
+
 export type Subscription = {
   id: string;
   name: string;

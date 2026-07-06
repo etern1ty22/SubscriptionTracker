@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { billingCycleLabels, billingCycles, reminderDayOptions } from "@subscription-tracker/shared";
-import type { Subscription } from "@subscription-tracker/shared";
+import type { Category, Subscription } from "@subscription-tracker/shared";
 import { useRouter } from "next/navigation";
 import type { ReactElement } from "react";
 import { useState, useTransition } from "react";
@@ -42,10 +42,11 @@ type SubscriptionFormMode = "create" | "edit";
 
 type SubscriptionFormProps = {
   mode: SubscriptionFormMode;
+  categories?: Category[];
   subscription?: Subscription;
 };
 
-export function SubscriptionForm({ mode, subscription }: SubscriptionFormProps): ReactElement {
+export function SubscriptionForm({ categories = [], mode, subscription }: SubscriptionFormProps): ReactElement {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const [isNavigating, startTransition] = useTransition();
@@ -182,10 +183,18 @@ export function SubscriptionForm({ mode, subscription }: SubscriptionFormProps):
         <input
           aria-invalid={errors.categoryName === undefined ? "false" : "true"}
           autoComplete="off"
+          list={categories.length === 0 ? undefined : "subscription-categories"}
           placeholder="Entertainment"
           type="text"
           {...register("categoryName")}
         />
+        {categories.length === 0 ? null : (
+          <datalist id="subscription-categories">
+            {categories.map((category) => (
+              <option key={category.id} value={category.name} />
+            ))}
+          </datalist>
+        )}
         {errors.categoryName?.message === undefined ? null : (
           <p className={styles.fieldError}>{errors.categoryName.message}</p>
         )}

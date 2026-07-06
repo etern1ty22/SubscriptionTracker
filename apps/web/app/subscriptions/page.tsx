@@ -31,6 +31,9 @@ export default async function SubscriptionsPage(): Promise<ReactElement> {
             <Link className={styles.navLink} href="/dashboard">
               Dashboard
             </Link>
+            <Link className={styles.navLink} href="/categories">
+              Categories
+            </Link>
             <Link className={styles.primaryLink} href="/subscriptions/new">
               New subscription
             </Link>
@@ -99,7 +102,20 @@ export default async function SubscriptionsPage(): Promise<ReactElement> {
                       <td>{formatMoney(subscription.amount, subscription.currency)}</td>
                       <td>{formatBillingCycle(subscription.billingCycle)}</td>
                       <td>{formatDateOnly(subscription.nextBillingDate)}</td>
-                      <td>{subscription.category?.name ?? <span className={styles.muted}>No category</span>}</td>
+                      <td>
+                        {subscription.category === null ? (
+                          <span className={styles.muted}>No category</span>
+                        ) : (
+                          <span className={styles.categoryCell}>
+                            <span
+                              aria-hidden="true"
+                              className={styles.colorSwatch}
+                              style={{ backgroundColor: subscription.category.color }}
+                            />
+                            {subscription.category.name}
+                          </span>
+                        )}
+                      </td>
                       <td>
                         <span
                           className={

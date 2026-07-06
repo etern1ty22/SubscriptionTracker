@@ -21,20 +21,31 @@ export default async function DashboardPage(): Promise<ReactElement> {
           <Link className={styles.brandLink} href="/">
             Subscription Tracker
           </Link>
-          <LogoutButton />
+          <div className={styles.dashboardActions}>
+            <Link className={styles.secondaryAction} href="/subscriptions">
+              Subscriptions
+            </Link>
+            <Link className={styles.secondaryAction} href="/categories">
+              Categories
+            </Link>
+            <LogoutButton />
+          </div>
         </header>
 
         <div className={styles.hero}>
           <div>
             <p className={styles.eyebrow}>Protected dashboard</p>
-            <h1 className={styles.title}>Dashboard is protected and subscriptions are ready.</h1>
+            <h1 className={styles.title}>Dashboard is protected and categories are ready.</h1>
             <p className={styles.summary}>
-              You are signed in with an httpOnly session cookie. MVP 2 adds user-owned recurring payments that can be
-              created, edited, deactivated, and deleted.
+              You are signed in with an httpOnly session cookie. MVP 3 adds user-owned categories for organizing
+              recurring payments.
             </p>
             <div className={styles.dashboardActions}>
               <Link className={styles.primaryAction} href="/subscriptions">
                 Open subscriptions
+              </Link>
+              <Link className={styles.secondaryAction} href="/categories">
+                Manage categories
               </Link>
             </div>
           </div>
