@@ -40,6 +40,9 @@ export default async function SubscriptionsPage(): Promise<ReactElement> {
             <Link className={styles.navLink} href="/statistics">
               Statistics
             </Link>
+            <Link className={styles.navLink} href="/export">
+              Export
+            </Link>
             <Link className={styles.primaryLink} href="/subscriptions/new">
               New subscription
             </Link>

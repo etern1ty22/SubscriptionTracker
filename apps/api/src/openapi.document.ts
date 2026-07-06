@@ -226,6 +226,30 @@ export const openApiDocument: OpenAPIObject = {
         }
       }
     },
+    "/export/subscriptions.csv": {
+      get: {
+        tags: ["Export"],
+        summary: "Download current user's subscriptions as CSV",
+        security: sessionSecurity(),
+        parameters: [
+          {
+            name: "status",
+            in: "query",
+            required: false,
+            description: "Use active to export only active subscriptions. Defaults to all.",
+            schema: {
+              type: "string",
+              enum: ["all", "active"]
+            }
+          }
+        ],
+        responses: {
+          "200": csvResponse("CSV file with current-user subscriptions."),
+          "400": jsonResponse("Invalid export query.", errorResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema)
+        }
+      }
+    },
     "/notifications": {
       get: {
         tags: ["Notifications"],
@@ -371,6 +395,20 @@ function jsonResponse(description: string, schema: SchemaObject): ResponseObject
     content: {
       "application/json": {
         schema
+      }
+    }
+  };
+}
+
+function csvResponse(description: string): ResponseObject {
+  return {
+    description,
+    content: {
+      "text/csv": {
+        schema: {
+          type: "string",
+          format: "binary"
+        }
       }
     }
   };

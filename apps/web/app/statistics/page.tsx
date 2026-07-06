@@ -49,6 +49,9 @@ export default async function StatisticsPage(): Promise<ReactElement> {
             <Link className={styles.secondaryAction} href="/calendar">
               Calendar
             </Link>
+            <Link className={styles.secondaryAction} href="/export">
+              Export
+            </Link>
             <LogoutButton />
           </div>
         </header>
@@ -67,6 +70,9 @@ export default async function StatisticsPage(): Promise<ReactElement> {
               </Link>
               <Link className={styles.secondaryAction} href="/categories">
                 Manage categories
+              </Link>
+              <Link className={styles.secondaryAction} href="/export">
+                Export CSV
               </Link>
             </div>
           </div>
