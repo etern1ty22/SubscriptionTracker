@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Query, Res, UseGuards } from "@nestjs/common";
+import { Controller, Get, Inject, Query, Res, StreamableFile, UseGuards } from "@nestjs/common";
 import {
   ApiBadRequestResponse,
   ApiCookieAuth,
@@ -13,7 +13,7 @@ import type { Response } from "express";
 import { AuthGuard } from "../auth/auth.guard";
 import { CurrentUserId } from "../auth/current-user-id.decorator";
 import { errorResponseSchema, SWAGGER_SESSION_AUTH_NAME } from "../openapi.schemas";
-import { parseExportSubscriptionsStatus } from "./export.schemas";
+import { parseExportReportMonth, parseExportSubscriptionsStatus } from "./export.schemas";
 import { ExportService } from "./export.service";
 
 @UseGuards(AuthGuard)
@@ -61,5 +61,42 @@ export class ExportController {
     response.setHeader("Content-Disposition", `attachment; filename="${file.filename}"`);
 
     return file.content;
+  }
+
+  @ApiOperation({ summary: "Download current user's monthly subscription report as PDF" })
+  @ApiQuery({
+    name: "month",
+    required: true,
+    example: "2026-08",
+    description: "Report month in YYYY-MM format."
+  })
+  @ApiOkResponse({
+    description: "PDF report with current-user active subscription totals.",
+    content: {
+      "application/pdf": {
+        schema: {
+          type: "string",
+          format: "binary"
+        }
+      }
+    }
+  })
+  @ApiBadRequestResponse({
+    description: "Invalid export query.",
+    schema: errorResponseSchema
+  })
+  @Get("report.pdf")
+  async exportReportPdf(
+    @CurrentUserId() userId: string,
+    @Query() query: { month?: unknown },
+    @Res({ passthrough: true }) response: Response
+  ): Promise<StreamableFile> {
+    const file = await this.exportService.exportMonthlyReportPdf(userId, parseExportReportMonth(query));
+
+    response.setHeader("Content-Type", "application/pdf");
+    response.setHeader("Content-Disposition", `attachment; filename="${file.filename}"`);
+    response.setHeader("Content-Length", String(file.content.byteLength));
+
+    return new StreamableFile(file.content);
   }
 }

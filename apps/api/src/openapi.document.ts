@@ -250,6 +250,31 @@ export const openApiDocument: OpenAPIObject = {
         }
       }
     },
+    "/export/report.pdf": {
+      get: {
+        tags: ["Export"],
+        summary: "Download current user's monthly subscription report as PDF",
+        security: sessionSecurity(),
+        parameters: [
+          {
+            name: "month",
+            in: "query",
+            required: true,
+            description: "Report month in YYYY-MM format.",
+            schema: {
+              type: "string",
+              pattern: "^[0-9]{4}-(0[1-9]|1[0-2])$"
+            },
+            example: "2026-08"
+          }
+        ],
+        responses: {
+          "200": pdfResponse("PDF report with current-user active subscription totals."),
+          "400": jsonResponse("Invalid export query.", errorResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema)
+        }
+      }
+    },
     "/notifications": {
       get: {
         tags: ["Notifications"],
@@ -405,6 +430,20 @@ function csvResponse(description: string): ResponseObject {
     description,
     content: {
       "text/csv": {
+        schema: {
+          type: "string",
+          format: "binary"
+        }
+      }
+    }
+  };
+}
+
+function pdfResponse(description: string): ResponseObject {
+  return {
+    description,
+    content: {
+      "application/pdf": {
         schema: {
           type: "string",
           format: "binary"

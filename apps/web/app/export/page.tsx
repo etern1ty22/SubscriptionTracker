@@ -16,8 +16,10 @@ export default async function ExportPage(): Promise<ReactElement> {
   }
 
   const apiUrl = getPublicApiUrl();
+  const currentMonth = new Date().toISOString().slice(0, 7);
   const allSubscriptionsUrl = `${apiUrl}/export/subscriptions.csv`;
   const activeSubscriptionsUrl = `${apiUrl}/export/subscriptions.csv?status=active`;
+  const currentMonthReportUrl = `${apiUrl}/export/report.pdf?month=${currentMonth}`;
 
   return (
     <main className={styles.page}>
@@ -42,17 +44,17 @@ export default async function ExportPage(): Promise<ReactElement> {
 
         <div className={styles.hero}>
           <div>
-            <p className={styles.eyebrow}>MVP 8 CSV export</p>
-            <h1 className={styles.title}>Download your subscription data.</h1>
+            <p className={styles.eyebrow}>MVP 9 export</p>
+            <h1 className={styles.title}>Download your subscription reports.</h1>
             <p className={styles.summary}>
-              Export user-owned subscription records into a UTF-8 CSV file that opens in spreadsheet tools.
+              Export user-owned subscription records into spreadsheet-ready CSV files or a monthly PDF report.
             </p>
             <div className={styles.actions}>
               <a className={styles.primaryAction} href={allSubscriptionsUrl}>
-                Download all
+                Download CSV
               </a>
-              <a className={styles.secondaryAction} href={activeSubscriptionsUrl}>
-                Download active
+              <a className={styles.secondaryAction} href={currentMonthReportUrl}>
+                Download PDF
               </a>
             </div>
           </div>
@@ -65,6 +67,33 @@ export default async function ExportPage(): Promise<ReactElement> {
         </div>
 
         <div className={styles.optionGrid}>
+          <article className={styles.optionCard}>
+            <p className={styles.metricLabel}>Monthly PDF</p>
+            <h2 className={styles.optionTitle}>Readable subscription report</h2>
+            <p className={styles.metricText}>
+              Includes active subscriptions, dashboard-style monthly totals, category spend, and projected charges for
+              the selected month.
+            </p>
+            <form action={`${apiUrl}/export/report.pdf`} className={styles.monthForm} method="get">
+              <label className={styles.monthLabel} htmlFor="report-month">
+                Report month
+              </label>
+              <div className={styles.monthControls}>
+                <input
+                  className={styles.monthInput}
+                  defaultValue={currentMonth}
+                  id="report-month"
+                  name="month"
+                  required
+                  type="month"
+                />
+                <button className={styles.primaryAction} type="submit">
+                  Download report.pdf
+                </button>
+              </div>
+            </form>
+          </article>
+
           <article className={styles.optionCard}>
             <p className={styles.metricLabel}>All subscriptions</p>
             <h2 className={styles.optionTitle}>Full account export</h2>
@@ -92,15 +121,15 @@ export default async function ExportPage(): Promise<ReactElement> {
           <div className={styles.sectionHeader}>
             <div>
               <p className={styles.panelLabel}>File contents</p>
-              <h2 className={styles.sectionTitle}>CSV columns</h2>
+              <h2 className={styles.sectionTitle}>Available files</h2>
             </div>
             <Link className={styles.textLink} href="/subscriptions">
               Manage subscriptions
             </Link>
           </div>
           <p className={styles.panelText}>
-            id, name, description, amount, currency, billingCycle, nextBillingDate, isActive, reminderEnabled,
-            reminderDaysBefore, categoryName, categoryColor, createdAt, updatedAt.
+            CSV exports include raw subscription fields for spreadsheet analysis. PDF exports summarize the selected
+            month into active subscriptions, totals, categories, and scheduled charges.
           </p>
         </section>
       </section>

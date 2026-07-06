@@ -31,6 +31,24 @@ void test("ExportService can export only active subscriptions", async (): Promis
   assert.doesNotMatch(file.content, /"sub_inactive"/u);
 });
 
+void test("ExportService exports a current-user active subscription PDF report", async (): Promise<void> => {
+  const service = createService();
+
+  const file = await service.exportMonthlyReportPdf("user_1", "2026-07");
+  const pdf = file.content.toString("ascii");
+
+  assert.equal(file.filename, "subscription-report-2026-07.pdf");
+  assert.equal(file.content.subarray(0, 4).toString("ascii"), "%PDF");
+  assert.match(pdf, /Monthly subscription report/u);
+  assert.match(pdf, /Report month: 2026-07/u);
+  assert.match(pdf, /Netflix/u);
+  assert.match(pdf, /Kino/u);
+  assert.match(pdf, /Razvlecheniya/u);
+  assert.match(pdf, /USD 9\.99/u);
+  assert.doesNotMatch(pdf, /Inactive/u);
+  assert.doesNotMatch(pdf, /Other user/u);
+});
+
 void test("buildSubscriptionsCsv escapes CSV cells and spreadsheet formulas", (): void => {
   const csv = buildSubscriptionsCsv([
     createSubscription({
@@ -79,6 +97,19 @@ function createService(): ExportService {
         billingCycle: "monthly",
         nextBillingDate: "2026-07-10",
         isActive: false
+      }),
+      createSubscription({
+        id: "sub_cyrillic",
+        userId: "user_1",
+        name: "Кино",
+        amount: "12.00",
+        billingCycle: "monthly",
+        nextBillingDate: "2026-07-12",
+        category: {
+          id: "cat_cyrillic",
+          name: "Развлечения",
+          color: "#8a4fff"
+        }
       }),
       createSubscription({
         id: "sub_other",
