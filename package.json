@@ -16,6 +16,8 @@
     "prisma:generate": "npm run prisma:generate --workspace @subscription-tracker/api",
     "prisma:migrate": "npm run prisma:migrate --workspace @subscription-tracker/api",
     "prisma:deploy": "npm run prisma:deploy --workspace @subscription-tracker/api",
+    "prisma:seed": "npm run prisma:seed --workspace @subscription-tracker/api",
+    "smoke:local": "node scripts/smoke-check.mjs",
     "docker:up": "docker compose up"
   },
   "devDependencies": {

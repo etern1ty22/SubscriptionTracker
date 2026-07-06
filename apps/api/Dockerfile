@@ -13,8 +13,8 @@ RUN npm ci --ignore-scripts --no-audit --no-fund
 COPY packages/shared packages/shared
 COPY apps/api apps/api
 
-RUN npm run prisma:generate --workspace @subscription-tracker/api
+RUN npm run build --workspace @subscription-tracker/api
 
 EXPOSE 4000
 
-CMD ["npm", "run", "dev", "--workspace", "@subscription-tracker/api"]
+CMD ["npm", "run", "start", "--workspace", "@subscription-tracker/api"]

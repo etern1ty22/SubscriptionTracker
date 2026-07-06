@@ -7,17 +7,17 @@ const checks = [
   {
     title: "Frontend",
     value: "Next.js App Router",
-    description: "Hosts auth and subscription CRUD pages on port 3000."
+    description: "Hosts auth, dashboard, CRUD, calendar, statistics, notifications, and export pages."
   },
   {
     title: "Backend",
     value: "NestJS API",
-    description: "Serves auth, health, and user-scoped subscriptions on port 4000."
+    description: "Serves user-scoped API endpoints, OpenAPI docs, healthchecks, CSV, and PDF reports."
   },
   {
     title: "Database",
     value: "PostgreSQL + Prisma",
-    description: "Stores users, categories, subscriptions, and notifications."
+    description: "Stores isolated users, categories, subscriptions, notifications, and seeded demo data."
   }
 ];
 
@@ -31,7 +31,7 @@ export default function HomePage(): ReactElement {
           <div className={styles.brand}>
             <Image src="/brand-mark.svg" alt="" width={40} height={40} priority />
             <div>
-              <p className={styles.eyebrow}>MVP 8</p>
+              <p className={styles.eyebrow}>MVP 10</p>
               <h1 className={styles.title}>Subscription Tracker</h1>
             </div>
           </div>
@@ -42,13 +42,13 @@ export default function HomePage(): ReactElement {
 
         <div className={styles.hero}>
           <div className={styles.heroCopy}>
-            <p className={styles.status}>CSV export is ready</p>
+            <p className={styles.status}>Deploy polish is ready</p>
             <h2 className={styles.headline}>
-              Add recurring payments after signing in.
+              Track recurring payments from login to report export.
             </h2>
             <p className={styles.summary}>
               The app creates users, stores JWT sessions in httpOnly cookies, and lets each user manage subscriptions,
-              categories, calendar charges, reminders, spending statistics, and CSV exports through a NestJS API.
+              categories, calendar charges, reminders, spending statistics, and CSV/PDF exports through a NestJS API.
             </p>
             <div className={styles.actions}>
               <Link className={styles.primaryAction} href="/register">
@@ -77,9 +77,9 @@ export default function HomePage(): ReactElement {
 
           <div className={styles.commandPanel}>
             <p className={styles.panelLabel}>Run locally</p>
-            <code className={styles.command}>docker compose up</code>
+            <code className={styles.command}>docker compose up --build</code>
             <p className={styles.panelNote}>
-              Web: localhost:3000. API health: localhost:4000/health.
+              Demo: demo@subscription-tracker.local / DemoPassword123!. Smoke check: npm run smoke:local.
             </p>
           </div>
         </div>
