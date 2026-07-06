@@ -99,3 +99,23 @@ export type DashboardSummary = {
 export type DashboardSummaryResponse = {
   summary: DashboardSummary;
 };
+
+export type CalendarPayment = {
+  id: string;
+  subscriptionId: string;
+  name: string;
+  amount: string;
+  currency: string;
+  billingCycle: BillingCycle;
+  paymentDate: string;
+  category: SubscriptionCategory | null;
+};
+
+export type CalendarDay = {
+  date: string;
+  payments: CalendarPayment[];
+};
+
+export type CalendarResponse = {
+  days: CalendarDay[];
+};

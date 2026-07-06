@@ -434,6 +434,75 @@ export const dashboardSummaryResponseSchema: SchemaObject = {
   }
 };
 
+export const calendarPaymentSchema: SchemaObject = {
+  type: "object",
+  required: ["id", "subscriptionId", "name", "amount", "currency", "billingCycle", "paymentDate", "category"],
+  properties: {
+    id: {
+      type: "string",
+      example: "clxsubscription123:2026-08-01"
+    },
+    subscriptionId: {
+      type: "string",
+      example: "clxsubscription123"
+    },
+    name: {
+      type: "string",
+      example: "Netflix"
+    },
+    amount: {
+      type: "string",
+      pattern: "^(?:0|[1-9]\\d{0,9})(?:\\.\\d{1,2})?$",
+      example: "9.99"
+    },
+    currency: {
+      type: "string",
+      minLength: 3,
+      maxLength: 3,
+      example: "USD"
+    },
+    billingCycle: {
+      type: "string",
+      enum: ["daily", "weekly", "monthly", "quarterly", "yearly"],
+      example: "monthly"
+    },
+    paymentDate: {
+      type: "string",
+      format: "date",
+      example: "2026-08-01"
+    },
+    category: {
+      nullable: true,
+      allOf: [subscriptionCategorySchema]
+    }
+  }
+};
+
+export const calendarResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["days"],
+  properties: {
+    days: {
+      type: "array",
+      items: {
+        type: "object",
+        required: ["date", "payments"],
+        properties: {
+          date: {
+            type: "string",
+            format: "date",
+            example: "2026-08-01"
+          },
+          payments: {
+            type: "array",
+            items: calendarPaymentSchema
+          }
+        }
+      }
+    }
+  }
+};
+
 export const createSubscriptionBodySchema: SchemaObject = {
   type: "object",
   required: ["name", "amount", "currency", "billingCycle", "nextBillingDate"],

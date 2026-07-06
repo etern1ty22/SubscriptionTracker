@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 
 import { AppController } from "./app.controller";
 import { AuthModule } from "./auth/auth.module";
+import { CalendarModule } from "./calendar/calendar.module";
 import { CategoriesModule } from "./categories/categories.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { HealthModule } from "./health/health.module";
@@ -18,6 +19,7 @@ import { SubscriptionsModule } from "./subscriptions/subscriptions.module";
     }),
     PrismaModule,
     AuthModule,
+    CalendarModule,
     CategoriesModule,
     DashboardModule,
     SubscriptionsModule,
