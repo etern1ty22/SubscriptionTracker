@@ -318,6 +318,122 @@ export const subscriptionsListResponseSchema: SchemaObject = {
   }
 };
 
+export const dashboardMoneyTotalSchema: SchemaObject = {
+  type: "object",
+  required: ["currency", "amount"],
+  properties: {
+    currency: {
+      type: "string",
+      minLength: 3,
+      maxLength: 3,
+      example: "USD"
+    },
+    amount: {
+      type: "string",
+      pattern: "^(?:0|[1-9]\\d*)(?:\\.\\d{2})$",
+      example: "54.99"
+    }
+  }
+};
+
+export const dashboardUpcomingPaymentSchema: SchemaObject = {
+  type: "object",
+  required: ["id", "name", "amount", "currency", "billingCycle", "nextBillingDate", "category"],
+  properties: {
+    id: {
+      type: "string",
+      example: "clxsubscription123"
+    },
+    name: {
+      type: "string",
+      example: "Netflix"
+    },
+    amount: {
+      type: "string",
+      pattern: "^(?:0|[1-9]\\d{0,9})(?:\\.\\d{1,2})?$",
+      example: "9.99"
+    },
+    currency: {
+      type: "string",
+      minLength: 3,
+      maxLength: 3,
+      example: "USD"
+    },
+    billingCycle: {
+      type: "string",
+      enum: ["daily", "weekly", "monthly", "quarterly", "yearly"],
+      example: "monthly"
+    },
+    nextBillingDate: {
+      type: "string",
+      format: "date",
+      example: "2026-08-01"
+    },
+    category: {
+      nullable: true,
+      allOf: [subscriptionCategorySchema]
+    }
+  }
+};
+
+export const dashboardCategoryBreakdownItemSchema: SchemaObject = {
+  type: "object",
+  required: ["category", "activeSubscriptionsCount", "monthlyTotals"],
+  properties: {
+    category: {
+      nullable: true,
+      allOf: [subscriptionCategorySchema]
+    },
+    activeSubscriptionsCount: {
+      type: "number",
+      example: 4
+    },
+    monthlyTotals: {
+      type: "array",
+      items: dashboardMoneyTotalSchema
+    }
+  }
+};
+
+export const dashboardSummaryResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["summary"],
+  properties: {
+    summary: {
+      type: "object",
+      required: [
+        "activeSubscriptionsCount",
+        "monthlyTotals",
+        "nextPayment",
+        "upcomingPayments",
+        "categoryBreakdown"
+      ],
+      properties: {
+        activeSubscriptionsCount: {
+          type: "number",
+          example: 8
+        },
+        monthlyTotals: {
+          type: "array",
+          items: dashboardMoneyTotalSchema
+        },
+        nextPayment: {
+          nullable: true,
+          allOf: [dashboardUpcomingPaymentSchema]
+        },
+        upcomingPayments: {
+          type: "array",
+          items: dashboardUpcomingPaymentSchema
+        },
+        categoryBreakdown: {
+          type: "array",
+          items: dashboardCategoryBreakdownItemSchema
+        }
+      }
+    }
+  }
+};
+
 export const createSubscriptionBodySchema: SchemaObject = {
   type: "object",
   required: ["name", "amount", "currency", "billingCycle", "nextBillingDate"],

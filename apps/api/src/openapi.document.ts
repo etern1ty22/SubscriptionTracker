@@ -15,6 +15,7 @@ import {
   categoryResponseSchema,
   createCategoryBodySchema,
   createSubscriptionBodySchema,
+  dashboardSummaryResponseSchema,
   errorResponseSchema,
   healthResponseSchema,
   logoutResponseSchema,
@@ -203,6 +204,20 @@ export const openApiDocument: OpenAPIObject = {
           }),
           "401": jsonResponse("Authentication is required.", errorResponseSchema),
           "404": jsonResponse("Category was not found for the current user.", errorResponseSchema)
+        }
+      }
+    },
+    "/dashboard/summary": {
+      get: {
+        tags: ["Dashboard"],
+        summary: "Return current user's dashboard summary",
+        security: sessionSecurity(),
+        responses: {
+          "200": jsonResponse(
+            "Dashboard totals and upcoming payments for active subscriptions.",
+            dashboardSummaryResponseSchema
+          ),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema)
         }
       }
     },

@@ -66,3 +66,36 @@ export type SubscriptionsListResponse = {
 export type SubscriptionResponse = {
   subscription: Subscription;
 };
+
+export type DashboardMoneyTotal = {
+  currency: string;
+  amount: string;
+};
+
+export type DashboardUpcomingPayment = {
+  id: string;
+  name: string;
+  amount: string;
+  currency: string;
+  billingCycle: BillingCycle;
+  nextBillingDate: string;
+  category: SubscriptionCategory | null;
+};
+
+export type DashboardCategoryBreakdownItem = {
+  category: SubscriptionCategory | null;
+  activeSubscriptionsCount: number;
+  monthlyTotals: DashboardMoneyTotal[];
+};
+
+export type DashboardSummary = {
+  activeSubscriptionsCount: number;
+  monthlyTotals: DashboardMoneyTotal[];
+  nextPayment: DashboardUpcomingPayment | null;
+  upcomingPayments: DashboardUpcomingPayment[];
+  categoryBreakdown: DashboardCategoryBreakdownItem[];
+};
+
+export type DashboardSummaryResponse = {
+  summary: DashboardSummary;
+};
