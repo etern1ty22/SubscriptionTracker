@@ -36,6 +36,9 @@ export default async function CalendarPage(): Promise<ReactElement> {
             <Link className={styles.secondaryAction} href="/subscriptions">
               Subscriptions
             </Link>
+            <Link className={styles.secondaryAction} href="/notifications">
+              Notifications
+            </Link>
             <LogoutButton />
           </div>
         </header>
@@ -51,6 +54,9 @@ export default async function CalendarPage(): Promise<ReactElement> {
               </Link>
               <Link className={styles.secondaryAction} href="/dashboard">
                 Back to dashboard
+              </Link>
+              <Link className={styles.secondaryAction} href="/notifications">
+                Notifications
               </Link>
             </div>
           </div>

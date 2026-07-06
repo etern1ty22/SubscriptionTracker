@@ -14,6 +14,10 @@ export const reminderDayOptions = [1, 3, 7] as const;
 
 export type ReminderDaysBefore = (typeof reminderDayOptions)[number];
 
+export const notificationTypes = ["billing_reminder"] as const;
+
+export type NotificationType = (typeof notificationTypes)[number];
+
 export type HealthStatus = {
   status: "ok" | "error";
   service: string;
@@ -118,4 +122,33 @@ export type CalendarDay = {
 
 export type CalendarResponse = {
   days: CalendarDay[];
+};
+
+export type NotificationSubscription = {
+  id: string;
+  name: string;
+  amount: string;
+  currency: string;
+  billingCycle: BillingCycle;
+  nextBillingDate: string;
+  category: SubscriptionCategory | null;
+};
+
+export type Notification = {
+  id: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  scheduledFor: string;
+  isRead: boolean;
+  createdAt: string;
+  subscription: NotificationSubscription | null;
+};
+
+export type NotificationsListResponse = {
+  notifications: Notification[];
+};
+
+export type NotificationResponse = {
+  notification: Notification;
 };

@@ -19,6 +19,8 @@ import {
   errorResponseSchema,
   healthResponseSchema,
   logoutResponseSchema,
+  notificationsListResponseSchema,
+  notificationResponseSchema,
   subscriptionResponseSchema,
   subscriptionsListResponseSchema,
   SWAGGER_SESSION_AUTH_NAME,
@@ -221,6 +223,30 @@ export const openApiDocument: OpenAPIObject = {
         }
       }
     },
+    "/notifications": {
+      get: {
+        tags: ["Notifications"],
+        summary: "List current user's in-app notifications",
+        security: sessionSecurity(),
+        responses: {
+          "200": jsonResponse("Notifications sorted with unread items first.", notificationsListResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema)
+        }
+      }
+    },
+    "/notifications/{id}/read": {
+      patch: {
+        tags: ["Notifications"],
+        summary: "Mark one current-user notification as read",
+        security: sessionSecurity(),
+        parameters: [notificationIdParameter()],
+        responses: {
+          "200": jsonResponse("Notification was marked as read.", notificationResponseSchema),
+          "401": jsonResponse("Authentication is required.", errorResponseSchema),
+          "404": jsonResponse("Notification was not found for the current user.", errorResponseSchema)
+        }
+      }
+    },
     "/subscriptions": {
       get: {
         tags: ["Subscriptions"],
@@ -345,5 +371,18 @@ function subscriptionIdParameter(): ParameterObject {
       type: "string"
     },
     example: "clxsubscription123"
+  };
+}
+
+function notificationIdParameter(): ParameterObject {
+  return {
+    name: "id",
+    in: "path",
+    required: true,
+    description: "Notification id.",
+    schema: {
+      type: "string"
+    },
+    example: "clxnotification123"
   };
 }

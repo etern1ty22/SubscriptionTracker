@@ -7,6 +7,7 @@ import { CalendarModule } from "./calendar/calendar.module";
 import { CategoriesModule } from "./categories/categories.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { HealthModule } from "./health/health.module";
+import { NotificationsModule } from "./notifications/notifications.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SubscriptionsModule } from "./subscriptions/subscriptions.module";
 
@@ -22,6 +23,7 @@ import { SubscriptionsModule } from "./subscriptions/subscriptions.module";
     CalendarModule,
     CategoriesModule,
     DashboardModule,
+    NotificationsModule,
     SubscriptionsModule,
     HealthModule
   ],

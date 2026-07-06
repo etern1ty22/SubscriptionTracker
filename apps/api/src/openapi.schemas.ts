@@ -503,6 +503,106 @@ export const calendarResponseSchema: SchemaObject = {
   }
 };
 
+export const notificationSubscriptionSchema: SchemaObject = {
+  type: "object",
+  required: ["id", "name", "amount", "currency", "billingCycle", "nextBillingDate", "category"],
+  properties: {
+    id: {
+      type: "string",
+      example: "clxsubscription123"
+    },
+    name: {
+      type: "string",
+      example: "Netflix"
+    },
+    amount: {
+      type: "string",
+      pattern: "^(?:0|[1-9]\\d{0,9})(?:\\.\\d{1,2})?$",
+      example: "9.99"
+    },
+    currency: {
+      type: "string",
+      minLength: 3,
+      maxLength: 3,
+      example: "USD"
+    },
+    billingCycle: {
+      type: "string",
+      enum: ["daily", "weekly", "monthly", "quarterly", "yearly"],
+      example: "monthly"
+    },
+    nextBillingDate: {
+      type: "string",
+      format: "date",
+      example: "2026-08-01"
+    },
+    category: {
+      nullable: true,
+      allOf: [subscriptionCategorySchema]
+    }
+  }
+};
+
+export const notificationSchema: SchemaObject = {
+  type: "object",
+  required: ["id", "type", "title", "message", "scheduledFor", "isRead", "createdAt", "subscription"],
+  properties: {
+    id: {
+      type: "string",
+      example: "clxnotification123"
+    },
+    type: {
+      type: "string",
+      enum: ["billing_reminder"],
+      example: "billing_reminder"
+    },
+    title: {
+      type: "string",
+      example: "Netflix billing reminder"
+    },
+    message: {
+      type: "string",
+      example: "Netflix is scheduled for 9.99 USD on 2026-08-01."
+    },
+    scheduledFor: {
+      type: "string",
+      format: "date",
+      example: "2026-07-29"
+    },
+    isRead: {
+      type: "boolean",
+      example: false
+    },
+    createdAt: {
+      type: "string",
+      format: "date-time"
+    },
+    subscription: {
+      nullable: true,
+      allOf: [notificationSubscriptionSchema]
+    }
+  }
+};
+
+export const notificationResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["notification"],
+  properties: {
+    notification: notificationSchema
+  }
+};
+
+export const notificationsListResponseSchema: SchemaObject = {
+  type: "object",
+  required: ["notifications"],
+  properties: {
+    notifications: {
+      type: "array",
+      items: notificationSchema
+    }
+  }
+};
+
 export const createSubscriptionBodySchema: SchemaObject = {
   type: "object",
   required: ["name", "amount", "currency", "billingCycle", "nextBillingDate"],

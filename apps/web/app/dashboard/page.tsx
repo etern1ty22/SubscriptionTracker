@@ -37,6 +37,9 @@ export default async function DashboardPage(): Promise<ReactElement> {
             <Link className={styles.secondaryAction} href="/calendar">
               Calendar
             </Link>
+            <Link className={styles.secondaryAction} href="/notifications">
+              Notifications
+            </Link>
             <LogoutButton />
           </div>
         </header>
@@ -55,6 +58,9 @@ export default async function DashboardPage(): Promise<ReactElement> {
               </Link>
               <Link className={styles.secondaryAction} href="/calendar">
                 Open calendar
+              </Link>
+              <Link className={styles.secondaryAction} href="/notifications">
+                Notifications
               </Link>
             </div>
           </div>
