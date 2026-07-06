@@ -1,4 +1,4 @@
-import { Injectable, ServiceUnavailableException } from "@nestjs/common";
+import { Inject, Injectable, ServiceUnavailableException } from "@nestjs/common";
 
 import { PrismaService } from "../prisma/prisma.service";
 
@@ -13,7 +13,7 @@ export type HealthCheckResponse = {
 
 @Injectable()
 export class HealthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
 
   async check(): Promise<HealthCheckResponse> {
     try {

@@ -62,6 +62,7 @@ docker compose up
 ```text
 Frontend:   http://localhost:3000
 API health: http://localhost:4000/health
+API docs:   http://localhost:4000/docs
 PostgreSQL: localhost:5432
 ```
 

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 
 import type { CreateSubscriptionDto, UpdateSubscriptionDto } from "./subscriptions.schemas";
@@ -8,7 +8,7 @@ import type { SubscriptionRecord, SubscriptionResponse } from "./subscriptions.t
 
 @Injectable()
 export class SubscriptionsService {
-  constructor(private readonly subscriptionsRepository: SubscriptionsRepository) {}
+  constructor(@Inject(SubscriptionsRepository) private readonly subscriptionsRepository: SubscriptionsRepository) {}
 
   async list(userId: string): Promise<SubscriptionResponse[]> {
     const subscriptions = await this.subscriptionsRepository.findManyForUser(userId);
